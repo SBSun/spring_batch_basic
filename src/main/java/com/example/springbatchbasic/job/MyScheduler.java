@@ -51,12 +51,21 @@ public class MyScheduler {
         jobLauncher.run(jobRegistry.getJob("validatedParamJob"), params);
     }
 
-    @Scheduled(fixedDelay = 100000)
+    //@Scheduled(fixedDelay = 100000)
     public void startJobListenerJob() throws JobExecutionException {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobId", String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
 
         jobLauncher.run(jobRegistry.getJob("jobListenerJob"), params);
+    }
+
+    @Scheduled(fixedDelay = 100000)
+    public void startTrMigrationJob() throws JobExecutionException {
+        JobParameters params = new JobParametersBuilder()
+                .addString("JobId", String.valueOf(System.currentTimeMillis()))
+                .toJobParameters();
+
+        jobLauncher.run(jobRegistry.getJob("trMigrationJob"), params);
     }
 }

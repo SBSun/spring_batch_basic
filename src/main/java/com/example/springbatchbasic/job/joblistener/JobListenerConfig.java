@@ -44,7 +44,7 @@ public class JobListenerConfig {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                 System.out.println("JobListener Job");
-                return RepeatStatus.FINISHED; 
+                return RepeatStatus.FINISHED;
             }
         };
     }
