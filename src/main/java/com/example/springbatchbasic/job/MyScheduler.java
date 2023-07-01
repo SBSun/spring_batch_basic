@@ -32,7 +32,6 @@ public class MyScheduler {
         return jobRegistryBeanPostProcessor;
     }
 
-    @Scheduled(fixedDelay = 10000)
     public void startHelloWorldJob() throws JobExecutionException {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobId", String.valueOf(System.currentTimeMillis()))
@@ -41,10 +40,11 @@ public class MyScheduler {
         jobLauncher.run(jobRegistry.getJob("helloWorldJob"), params);
     }
 
-    @Scheduled(fixedDelay = 20000)
+    @Scheduled(fixedDelay = 100000)
     public void startValidatedParamJob() throws JobExecutionException {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobId", String.valueOf(System.currentTimeMillis()))
+                .addString("fileName", "test")
                 .toJobParameters();
 
         jobLauncher.run(jobRegistry.getJob("validatedParamJob"), params);
