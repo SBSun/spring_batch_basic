@@ -1,11 +1,11 @@
-package com.example.springbatchbasic.job.helloworld;
+package com.example.springbatchbasic.job.joblistener;
+
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -18,32 +18,33 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-public class HelloWorldJobConfig extends DefaultBatchConfiguration{
+public class JobListenerConfig {
 
     @Bean
-    public Job helloWorldJob(JobRepository jobRepository, Step helloWorldStep){
-        return new JobBuilder("helloWorldJob", jobRepository)
-                .incrementer(new RunIdIncrementer()) // Job을 실행할 때 Id를 부여하는데, Sequence를 순차적으로 부여할 수 있도록 설정
-                .start(helloWorldStep)
+    public Job jobListenerJob(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager){
+        return new JobBuilder("jobListenerJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .listener(new JobLoggerListener())
+                .start(jobListenerStep(jobRepository, platformTransactionManager))
                 .build();
     }
 
     @JobScope
     @Bean
-    public Step helloWorldStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager){
-        return new StepBuilder("helloWorldStep", jobRepository)
-                .tasklet(helloWorldTasklet(), platformTransactionManager)
+    public Step jobListenerStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager){
+        return new StepBuilder("jobListenerStep", jobRepository)
+                .tasklet(jobListenerTasklet(), platformTransactionManager)
                 .build();
     }
 
     @StepScope
     @Bean
-    public Tasklet helloWorldTasklet(){
+    public Tasklet jobListenerTasklet(){
         return new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                System.out.println("Hello World Spring Batch");
-                return RepeatStatus.FINISHED;   // FINISHED를 명시함으로써 이 스탭을 끝내도록 설정
+                System.out.println("JobListener Job");
+                return RepeatStatus.FINISHED; 
             }
         };
     }
