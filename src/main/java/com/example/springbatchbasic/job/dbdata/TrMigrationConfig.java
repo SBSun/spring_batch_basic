@@ -1,11 +1,10 @@
-package com.example.springbatchbasic.job.readwrite;
+package com.example.springbatchbasic.job.dbdata;
 
 import com.example.springbatchbasic.domain.accounts.Accounts;
 import com.example.springbatchbasic.domain.accounts.AccountsRepository;
 import com.example.springbatchbasic.domain.orders.Orders;
 import com.example.springbatchbasic.domain.orders.OrdersRepository;
 import com.example.springbatchbasic.job.joblistener.JobLoggerListener;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
@@ -14,7 +13,6 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
