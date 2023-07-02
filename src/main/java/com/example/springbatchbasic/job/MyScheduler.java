@@ -78,12 +78,21 @@ public class MyScheduler {
         jobLauncher.run(jobRegistry.getJob("fileReadWriteJob"), params);
     }
 
-    @Scheduled(fixedDelay = 100000)
+    //@Scheduled(fixedDelay = 100000)
     public void startMultipleStepJob() throws JobExecutionException {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobId", String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
 
         jobLauncher.run(jobRegistry.getJob("multipleStepJob"), params);
+    }
+
+    @Scheduled(fixedDelay = 100000)
+    public void startConditionalStepJob() throws JobExecutionException {
+        JobParameters params = new JobParametersBuilder()
+                .addString("JobId", String.valueOf(System.currentTimeMillis()))
+                .toJobParameters();
+
+        jobLauncher.run(jobRegistry.getJob("conditionalStepJob"), params);
     }
 }
